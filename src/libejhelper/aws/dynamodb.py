@@ -1,7 +1,7 @@
 import boto3
 from retry import retry
 
-from libejhealper.helper.logging import getLogger
+from libejhelper.helper.logging import getLogger
 
 logger = getLogger(__name__)
 

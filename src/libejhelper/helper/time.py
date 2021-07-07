@@ -40,52 +40,6 @@ def convertSlot2Unixtime(recorded_date, slot=1):
 def convertUnixtime2Timestamp(unixtime):
     return datetime.fromtimestamp(unixtime)
 
-def isLeapYear(year):
-    """
-    閏年の判定
-    """
-    if year % 4 == 0:
-        if year % 100 == 0:
-            if year % 400 == 0:
-                return True
-        else:
-            return True
-    return False
-
-
-def convertUnixtime2Timestamp(unixtime):
-    return datetime.fromtimestamp(unixtime)
-
-
-def getYear():
-    return datetime.today().year
-
-
-def isLeapYear(year):
-    """
-    閏年の判定
-    """
-    if year % 4 == 0:
-        if year % 100 == 0:
-            if year % 400 == 0:
-                return True
-        else:
-            return True
-    return False
-
-
-def getMonth():
-    return str(datetime.today().month).zfill(2)
-
-
-def getDay():
-    return str(datetime.today().day).zfill(2)
-
-
-def convertUnixtime2Timestamp(unixtime):
-    return datetime.fromtimestamp(unixtime)
-
-
 def getYear(datetime: Optional[datetime] = None):
     if datetime is None:
         datetime = getNow()

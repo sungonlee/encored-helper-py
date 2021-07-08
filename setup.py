@@ -37,7 +37,11 @@ setuptools.setup(
     ],
     install_requires=load_requires_from_file("requirements.txt"),
     dependency_links=load_links_from_file("requirements.txt"),
-    package_dir={"": "src"},
-    packages=setuptools.find_packages(where="src"),
+    packages=setuptools.find_packages(),
+    # package_dir={"": "src"},
+    # packages=setuptools.find_packages(where="src"),
+    entry_points = {
+        'console_scripts': ['libejhelper = libejhelper.sample_command:main']
+    },
     python_requires=">=3.6",
 )

@@ -4,6 +4,6 @@
 ## パッケージ作成
 
 ```
-pythone setup.py sdist
+python setup.py sdist
 
 ```

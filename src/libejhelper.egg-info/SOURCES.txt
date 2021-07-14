@@ -1,9 +1,0 @@
-MANIFEST.in
-README.md
-requirements.txt
-setup.py
-src/libejhelper.egg-info/PKG-INFO
-src/libejhelper.egg-info/SOURCES.txt
-src/libejhelper.egg-info/dependency_links.txt
-src/libejhelper.egg-info/requires.txt
-src/libejhelper.egg-info/top_level.txt

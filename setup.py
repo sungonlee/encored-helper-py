@@ -22,7 +22,7 @@ def load_links_from_file(filepath):
     return res
 
 setuptools.setup(
-    name="libejhelper",
+    name="ejhelper",
     version="1.0.0",
     author="ysoru",
     author_email="youngrae.seol@encored.co.jp",
@@ -38,7 +38,7 @@ setuptools.setup(
     install_requires=load_requires_from_file("requirements.txt"),
     dependency_links=load_links_from_file("requirements.txt"),
     package_dir={"": "src"},
-    packages=setuptools.find_packages(where="src/libejhelper"),
+    packages=setuptools.find_packages(where="src"),
     include_package_data=True,
     python_requires=">=3.7",
 )

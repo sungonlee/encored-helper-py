@@ -3,7 +3,7 @@ from retry import retry
 import json
 import decimal
 
-from libejhelper.helper.logging import getLogger
+from ejhelper.helper.logging import getLogger
 
 logger = getLogger(__name__)
 

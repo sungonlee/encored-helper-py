@@ -1,5 +1,5 @@
 from logging import getLogger as getLoggerOrg, StreamHandler, Formatter, DEBUG, INFO
-from libejhealper.helper.env import getEnv, DEBUG_MODE, LOG_MODE
+from ejhelper.helper.env import getEnv, DEBUG_MODE, LOG_MODE
 
 
 def getLogger(name):

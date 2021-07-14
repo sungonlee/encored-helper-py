@@ -26,7 +26,7 @@ setuptools.setup(
     version="1.0.0",
     author="ysoru",
     author_email="youngrae.seol@encored.co.jp",
-    description="libejhelper is lib for encored japan development",
+    description="ejhelper is lib for encored japan development",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://encored.co.jp",

@@ -1,6 +1,7 @@
 from typing import Optional
 
 from datetime import datetime, timedelta, timezone
+from time import time
 
 # タイムゾーンの生成
 JST = timezone(timedelta(hours=+9), 'JST')
@@ -16,10 +17,10 @@ def getNow(timezone: Optional[timezone] = None):
     """
     if timezone is None:
         timezone = JST
-    return datetime.now(timezone)
+    return datetime.fromtimestamp(currentUnixtime(), timezone)
 
 
-def getTimestamp(timezone: Optional[timezone] = None):
+def getTimestamp():
     """
         タイムジョンを考慮した現在のtimestamp
         Args:
@@ -27,7 +28,7 @@ def getTimestamp(timezone: Optional[timezone] = None):
         Returns:
             int: timestmap millisec
     """
-    return int(getNow(timezone).timestamp() * 1000)
+    return int(time() * 1000)
 
 
 def convertSlot2Unixtime(recorded_date, slot=1):
@@ -87,5 +88,5 @@ def getTTL(months=0, weeks=0, days=0, hours=0, minutes=0):
 
 
 def currentUnixtime():
-    return int(datetime.now().timestamp())
+    return int(getTimestamp / 1000)
 

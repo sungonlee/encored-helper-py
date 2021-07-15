@@ -1,18 +1,35 @@
 import boto3
 from retry import retry
 
+from ejhelper.helper.env import getEnv, EXEC_ENV
 from ejhelper.helper.logging import getLogger
+
+env: str = getEnv(EXEC_ENV)
 
 logger = getLogger(__name__)
 
 
 class DynamoDBTable:
 
-    def __init__(self, table_name, **kwargs):
+    tablename: str = ''
 
-        self.table_name = table_name
+    def __init__(self, tablename, **kwargs):
+
+        env_tablename: str = getEnv(
+            f'DY_{self.tablename}_TABLE_NAME', tablename)
+        if tablename == env_tablename:
+            local_tablename = f'{env}{self.tablename}'
+        else:
+            local_tablename = env_tablename
+            kwargs['aws_access_key_id'] = getEnv(
+                f'DY_{tablename}_TABLE_ACCESS_KEY_ID')
+            kwargs['aws_secret_access_key'] = getEnv(
+                f'DY_{tablename}_TABLE_SECRET_ACCESS_KEY')
+            logger.info(f'use env table name : {env_tablename}')
+
         self.dynamodb = boto3.resource('dynamodb', **kwargs)
-        self.table = self.dynamodb.Table(self.table_name)
+        self.table = self.dynamodb.Table(local_tablename)
+        self.tablename = local_tablename
 
     @retry(tries=3, delay=1, backoff=1, logger=logger)
     def scan(self, **kwargs):

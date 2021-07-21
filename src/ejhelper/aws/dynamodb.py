@@ -16,7 +16,7 @@ class DynamoDBTable:
     def __init__(self, tablename, **kwargs):
 
         env_tablename: str = getEnv(
-            f'DY_{self.tablename}_TABLE_NAME', tablename)
+            f'DY_{tablename}_TABLE_NAME', tablename)
         if tablename == env_tablename:
             local_tablename = f'{env}{self.tablename}'
         else:
@@ -79,3 +79,4 @@ class DynamoDBTable:
         overwrite_by_pkeys=['partition_key', 'sort_key']
         """
         return self.table.batch_writer(**kwargs)
+

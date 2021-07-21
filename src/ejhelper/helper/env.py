@@ -1,4 +1,5 @@
 from os import environ
+from typing import Optional
 
 LOG_MODE = 'LOG_MODE'
 DEBUG_MODE = 'DEBUG_MODE'
@@ -11,7 +12,7 @@ SECRET_ACCESS_KEY = 'SECRET_ACCESS_KEY'
 env_dict = {}
 
 
-def getEnv(key):
+def getEnv(key, default: Optional[str] = None):
     if key not in env_dict:
         value = None
         # DefaultValue
@@ -20,8 +21,9 @@ def getEnv(key):
         elif key == EXEC_ENV or key == AWS_PREFIX:
             value = environ.get(key, 'dev')
         else:
-            value = environ.get(key, None)
+            value = environ.get(key, default)
 
         env_dict[key] = value
 
     return env_dict[key]
+

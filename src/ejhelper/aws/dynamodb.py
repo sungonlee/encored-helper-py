@@ -1,4 +1,4 @@
-import boto3
+from boto3.session import Session
 from retry import retry
 
 from ejhelper.helper.env import getEnv, EXEC_ENV
@@ -27,7 +27,12 @@ class DynamoDBTable:
                 f'DY_{tablename}_TABLE_SECRET_ACCESS_KEY')
             logger.info(f'use env table name : {env_tablename}')
 
-        self.dynamodb = boto3.resource('dynamodb', **kwargs)
+        profile = getEnv('PROFILE', None)
+        if profile is None:
+            session = Session()
+        else:
+            session = Session(profile_name=profile)
+        self.dynamodb = session.resource('dynamodb', **kwargs)
         self.table = self.dynamodb.Table(local_tablename)
         self.tablename = local_tablename
 
@@ -65,6 +70,10 @@ class DynamoDBTable:
     def update_item(self, **kwargs):
         return self.table.update_item(**kwargs)
 
+    @retry(tries=3, delay=1, backoff=1, logger=logger)
+    def put_item(self, **kwargs):
+        return self.table.put_item(**kwargs)
+    
     @retry(tries=2, delay=1, backoff=1, logger=logger)
     def get_item(self, **kwargs):
         return self.table.get_item(**kwargs)

@@ -1,8 +1,9 @@
-import boto3
+from boto3.session import Session
 from retry import retry
 import json
 import decimal
 
+from ejhelper.helper.env import getEnv
 from ejhelper.helper.logging import getLogger
 
 logger = getLogger(__name__)
@@ -11,7 +12,13 @@ class S3:
 
     def __init__(self, bucket_name):
         self.bucket_name = bucket_name
-        self.s3 = boto3.resource('s3')
+        
+        profile = getEnv('PROFILE', None)
+        if profile is None:
+            session = Session()
+        else:
+            session = Session(profile_name=profile)
+        self.s3 = session.resource('s3')
         self.bucket = self.s3.Bucket(self.bucket_name)
         self.objects = self.bucket.objects
 

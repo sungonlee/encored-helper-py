@@ -88,5 +88,4 @@ def getTTL(months=0, weeks=0, days=0, hours=0, minutes=0):
 
 
 def currentUnixtime():
-    return int(getTimestamp / 1000)
-
+    return int(getTimestamp() / 1000)

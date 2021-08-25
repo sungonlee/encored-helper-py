@@ -1,5 +1,6 @@
 from boto3.session import Session
 from retry import retry
+from uuid import uuid4
 import json
 import decimal
 
@@ -25,6 +26,16 @@ class S3:
     @retry(tries=3, delay=1, backoff=1, logger=logger)
     def Object(self, key):
         return self.bucket.Object(key)
+
+    @retry(tries=3, delay=1, backoff=1, logger=logger)
+    def object_put(self, key, data):
+        return self.bucket.Object(key).put(Body=json.dumps(data))
+
+    @retry(tries=3, delay=1, backoff=1, logger=logger)
+    def object_get(self, key):
+        response = self.bucket.Object(key).get()
+        body = response['Body'].read()
+        return json.loads(body.decode('utf-8'))
 
     @retry(tries=3, delay=1, backoff=1, logger=logger)
     def upload_file(
@@ -126,3 +137,22 @@ def decimalEncoder(o):
         else:
             return int(o)
     return o
+
+
+def create_s3_store(s3_bucket: str, prefix: str, values, limit: int = None):
+    result = []
+    upload_bucket = S3(s3_bucket)
+
+    # 配列分割
+    len_values = len(values)
+    if limit is None:
+        limit = len_values
+    n = int((len_values - 1) / limit) + 1  # limitいないにすつための分割数
+    split_list = [values[idx:idx + n] for idx in range(0, len_values, n)]
+
+    key_prefix = f'{prefix}/{str(uuid4())}'
+    for index, item in enumerate(split_list):
+        key = f'{key_prefix}/{index}'
+        upload_bucket.object_put(key, item)
+        result.append(key)
+    return result

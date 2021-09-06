@@ -147,8 +147,11 @@ def create_s3_store(s3_bucket: str, prefix: str, values, limit: int = None):
     len_values = len(values)
     if limit is None:
         limit = len_values
-    n = int((len_values - 1) / limit) + 1  # limitいないにすつための分割数
-    split_list = [values[idx:idx + n] for idx in range(0, len_values, n)]
+    if limit == 0 or len_values == 0:
+        split_list = [ None ]
+    else:
+        n = int((len_values - 1) / limit) + 1  # limitいないにすつための分割数
+        split_list = [values[idx:idx + n] for idx in range(0, len_values, n)]
 
     key_prefix = f'{prefix}/{str(uuid4())}'
     for index, item in enumerate(split_list):

@@ -30,7 +30,7 @@ class S3:
 
     @retry(tries=3, delay=1, backoff=1, logger=logger)
     def object_put(self, key, data):
-        return self.bucket.Object(key).put(Body=json.dumps(data))
+        return self.bucket.Object(key).put(Body=json.dumps(data, ensure_ascii=False))
 
     @retry(tries=3, delay=1, backoff=1, logger=logger)
     def object_get(self, key):

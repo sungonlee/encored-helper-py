@@ -1,6 +1,7 @@
 from boto3.session import Session
 from retry import retry
 from uuid import uuid4
+from math import ceil
 import json
 import decimal
 
@@ -140,6 +141,17 @@ def decimalEncoder(o):
 
 
 def create_s3_store(s3_bucket: str, prefix: str, values, limit: int = None):
+    """[リストを分割してS3に格納]通知情報連携様
+
+    Args:
+        s3_bucket (str): [連携ファイルお記載]
+        prefix (str): [S3keyのprefix]
+        values (list): [分割対象データリスト]
+        limit (int, optional): [分割時１つの最大数]. Defaults to None.
+
+    Returns:
+        [list]: [S3Keyリスト]0件の場合は [ None ]を返す ※ step funtionsで例外処理せず、通常成功させるため
+    """
     result = []
     upload_bucket = S3(s3_bucket)
 
@@ -147,11 +159,13 @@ def create_s3_store(s3_bucket: str, prefix: str, values, limit: int = None):
     len_values = len(values)
     if limit is None:
         limit = len_values
-    if limit == 0 or len_values == 0:
+
+    if len_values == 0:
         split_list = [ None ]
     else:
         n = int((len_values - 1) / limit) + 1  # limitいないにすつための分割数
-        split_list = [values[idx:idx + n] for idx in range(0, len_values, n)]
+        page = ceil(len_values / n)
+        split_list = [values[idx:idx + page] for idx in range(0, len_values, page)]
 
     key_prefix = f'{prefix}/{str(uuid4())}'
     for index, item in enumerate(split_list):

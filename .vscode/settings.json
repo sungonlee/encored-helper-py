@@ -1,0 +1,3 @@
+{
+  "editor.formatOnSave": true, // ファイル保存時にコードを整形するかどうか
+}

@@ -64,3 +64,69 @@ class StepFunctions:
         logger.info(
             f'StepFunctions.list_executions kwargs {json.dumps(kwargs)}')
         return self.client.list_executions(**kwargs)
+
+    @retry(tries=3, delay=1, backoff=1, logger=logger)
+    def start_execution(self, **kawrgs):
+        """
+        Request Syntax
+            response = client.start_execution(
+                stateMachineArn='string',
+                name='string',
+                input='string',
+                traceHeader='string'
+            )
+        Parameters
+            stateMachineArn (string) --
+                [REQUIRED]
+                The Amazon Resource Name (ARN) of the state machine whose executions is listed.
+            name (string) --
+                The name of the execution. This name must be unique for your AWS account, region, and state machine for 90 days. For more information, see Limits Related to State Machine Executions in the AWS Step Functions Developer Guide .
+                A name must not contain:
+                    white space
+                    brackets < > { } [ ]
+                    wildcard characters ? *
+                    special characters " # % \ ^ | ~ ` $ & , ; : /
+                    control characters (U+0000-001F , U+007F-009F )
+                    To enable logging with CloudWatch Logs, the name should only contain 0-9, A-Z, a-z, - and _.
+            input (string) --
+                The string that contains the JSON input data for the execution, for example:
+                "input": "{\"first_name\" : \"test\"}"
+            traceHeader (string) -- Passes the AWS X-Ray trace header. The trace header can also be passed in the request payload.
+
+
+        Returns
+            Response Syntax
+            {
+                'executionArn': 'string',
+                'startDate': datetime(2015, 1, 1)
+            }
+        """
+        logger.info(
+            f'StepFunctions.start_execution kawrgs {json.dumps(kawrgs)}')
+        return self.client.start_execution(**kawrgs)
+
+    @retry(tries=3, delay=1, backoff=1, logger=logger)
+    def stop_execution(self, **kawrgs):
+        """
+        Request Syntax
+            response = client.stop_execution(
+                executionArn='string',
+                error='string',
+                cause='string'
+            )
+        Parameters
+            executionArn (string) --
+                [REQUIRED]
+                The Amazon Resource Name (ARN) of the execution to stop.
+            error (string) -- The error code of the failure.
+            cause (string) -- A more detailed explanation of the cause of the failure.
+
+        Returns
+            Response Syntax
+            {
+                'stopDate': datetime(2015, 1, 1)
+            }
+        """
+        logger.info(
+            f'StepFunctions.stop_execution kawrgs {json.dumps(kawrgs)}')
+        return self.client.stop_execution(**kawrgs)

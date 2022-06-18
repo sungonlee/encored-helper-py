@@ -10,11 +10,12 @@ from ejhelper.helper.logging import getLogger
 
 logger = getLogger(__name__)
 
+
 class S3:
 
     def __init__(self, bucket_name):
         self.bucket_name = bucket_name
-        
+
         profile = getEnv('PROFILE', None)
         if profile is None:
             session = Session()
@@ -120,7 +121,6 @@ class S3:
         return result
 
 
-
 class DecimalEncoder(json.JSONEncoder):
     def default(self, o):
         if isinstance(o, decimal.Decimal):
@@ -140,7 +140,7 @@ def decimalEncoder(o):
     return o
 
 
-def create_s3_store(s3_bucket: str, prefix: str, values, limit: int = None):
+def s(s3_bucket: str, prefix: str, values, limit: int = None):
     """[リストを分割してS3に格納]通知情報連携様
 
     Args:
@@ -161,15 +161,16 @@ def create_s3_store(s3_bucket: str, prefix: str, values, limit: int = None):
         limit = len_values
 
     if len_values == 0:
-        split_list = [ None ]
+        split_list = [None]
     else:
         n = int((len_values - 1) / limit) + 1  # limitいないにすつための分割数
         page = ceil(len_values / n)
-        split_list = [values[idx:idx + page] for idx in range(0, len_values, page)]
+        split_list = [values[idx:idx + page]
+                      for idx in range(0, len_values, page)]
 
     key_prefix = f'{prefix}/{str(uuid4())}'
     for index, item in enumerate(split_list):
         key = f'{key_prefix}/{index}'
-        upload_bucket.object_put(key, item)
+        upload_bucket.put_object(key, item)
         result.append(key)
     return result

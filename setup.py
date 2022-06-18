@@ -1,7 +1,8 @@
 import setuptools
- 
+
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
+
 
 def take_package_name(name):
     if name.startswith("-e"):
@@ -9,9 +10,11 @@ def take_package_name(name):
     else:
         return name.strip()
 
+
 def load_requires_from_file(filepath):
     with open(filepath) as fp:
         return [take_package_name(pkg_name) for pkg_name in fp.readlines()]
+
 
 def load_links_from_file(filepath):
     res = []
@@ -21,9 +24,10 @@ def load_links_from_file(filepath):
                 res.append(pkg_name.split(" ")[1])
     return res
 
+
 setuptools.setup(
     name="ejhelper",
-    version="1.0.0",
+    version="1.0.1",
     author="ysoru",
     author_email="youngrae.seol@encored.co.jp",
     description="ejhelper is lib for encored japan development",

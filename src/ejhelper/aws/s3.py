@@ -140,7 +140,7 @@ def decimalEncoder(o):
     return o
 
 
-def s(s3_bucket: str, prefix: str, values, limit: int = None):
+def create_s3_store(s3_bucket: str, prefix: str, values, limit: int = None):
     """[リストを分割してS3に格納]通知情報連携様
 
     Args:

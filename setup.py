@@ -27,7 +27,7 @@ def load_links_from_file(filepath):
 
 setuptools.setup(
     name="ejhelper",
-    version="1.0.2",
+    version="1.1.2",
     author="ysoru",
     author_email="youngrae.seol@encored.co.jp",
     description="ejhelper is lib for encored japan development",

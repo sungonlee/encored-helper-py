@@ -55,17 +55,17 @@ class DynamoDBTableV2:
         if PJ_PREFIX not in self.table:
             logger.warn(
                 f'_check_project before: tablename:{self.tablename}, current PJ_PREFIX={PJ_PREFIX}')
-            self.inti(self.tablename_org, {})
+            option: Any = {}
+            self.init(self.tablename_org, **option)
+        return self.table[PJ_PREFIX]
 
     @retry(tries=3, delay=1, backoff=1, logger=logger)
     def scan(self, **kwargs):
-        self._check_project()
-        return self.table.scan(**kwargs)
+        return self._check_project().scan(**kwargs)
 
     @retry(tries=3, delay=1, backoff=1, logger=logger)
     def query(self, **kwargs):
-        self._check_project()
-        return self.table.query(**kwargs)
+        return self._check_project().query(**kwargs)
 
     @retry(tries=3, delay=1, backoff=1, logger=logger)
     def batch_get_item(self, **kwargs):
@@ -87,33 +87,27 @@ class DynamoDBTableV2:
             display_proc(response['Responses'][table_name])
             #
         """
-        self._check_project()
         return self.dynamodb.batch_get_item(**kwargs)
 
     @retry(tries=3, delay=1, backoff=1, logger=logger)
     def update_item(self, **kwargs):
-        self._check_project()
-        return self.table.update_item(**kwargs)
+        return self._check_project().update_item(**kwargs)
 
     @retry(tries=3, delay=1, backoff=1, logger=logger)
     def put_item(self, **kwargs):
-        self._check_project()
-        return self.table.put_item(**kwargs)
+        return self._check_project().put_item(**kwargs)
 
     @retry(tries=2, delay=1, backoff=1, logger=logger)
     def get_item(self, **kwargs):
-        self._check_project()
-        return self.table.get_item(**kwargs)
+        return self._check_project().get_item(**kwargs)
 
     @retry(tries=3, delay=1, backoff=1, logger=logger)
     def delete_item(self, **kwargs):
-        self._check_project()
-        return self.table.delete_item(**kwargs)
+        return self._check_project().delete_item(**kwargs)
 
     @retry(tries=3, delay=1, backoff=1, logger=logger)
     def batch_writer(self, **kwargs):
         """
         overwrite_by_pkeys=['partition_key', 'sort_key']
         """
-        self._check_project()
-        return self.table.batch_writer(**kwargs)
+        return self._check_project().batch_writer(**kwargs)

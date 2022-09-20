@@ -12,10 +12,6 @@ logger = getLogger(__name__)
 
 class DynamoDBTableV2:
 
-    tablename: str = ''
-    tablename_org: str = ''
-    table: dict[str, Any] = dict()
-
     def __init__(self, tablename, **kwargs):
         self.init(tablename, **kwargs)
 

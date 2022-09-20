@@ -19,6 +19,9 @@ class DynamoDBTableV2:
         # PROJECT_PREFIXは毎回取得
         PJ_PREFIX: str = getEnv(PROJECT_PREFIX)  # （Global定義禁止）
 
+        if self.table is None:
+            self.table: dict[str, Any] = dict()
+
         env_tablename: str = getEnv(
             f'DYNAMODB_TABLENAME__{tablename}', tablename)
         if tablename == env_tablename:

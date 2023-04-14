@@ -22,6 +22,7 @@ class S3:
         else:
             session = Session(profile_name=profile)
         self.s3 = session.resource('s3')
+        self.meta = self.s3.meta
         self.bucket = self.s3.Bucket(self.bucket_name)
         self.objects = self.bucket.objects
 
@@ -120,6 +121,15 @@ class S3:
             result = None
         return result
 
+    @retry(tries=3, delay=1, backoff=1, logger=logger)
+    def copy(self, copy_source, otherbucket, otherkey):
+        """
+        copy_source = {
+            'Bucket': 'mybucket',
+            'Key': 'mykey'
+        }
+        """
+        return self.meta.client.copy(copy_source, otherbucket, otherkey)
 
 class DecimalEncoder(json.JSONEncoder):
     def default(self, o):

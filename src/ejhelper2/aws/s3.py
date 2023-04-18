@@ -131,6 +131,23 @@ class S3:
         """
         return self.meta.client.copy(copy_source, otherbucket, otherkey)
 
+    @retry(tries=3, delay=1, backoff=1, logger=logger)
+    def delete_object(self, key, **kwargs):
+        """
+        ヘッダー情報取得
+
+        response sample
+
+        {
+            'DeleteMarker': True|False,
+            'VersionId': 'string',
+            'RequestCharged': 'requester'
+        }
+        """
+        return self.s3.meta.client.delete_object(
+            Bucket=self.bucket_name, Key=key, **kwargs)
+
+
 class DecimalEncoder(json.JSONEncoder):
     def default(self, o):
         if isinstance(o, decimal.Decimal):

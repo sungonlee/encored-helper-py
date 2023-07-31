@@ -4,7 +4,7 @@
 usages() {
   echo "Usage.."
   echo " $1 [arm64|x86_64]"
-  echo " $2 [python3_6|python3_7|python3_8|python3_9]"
+  echo " $2 [python3.6|python3.7|python3.8|python3.9]"
   echo " $3 [dev|test|stg|prod]"
   echo " $4 [cloud|""]"
 
@@ -19,7 +19,14 @@ if [ "$1" = "" ]; then
 fi
 
 # The layer name can contain only letters, numbers, hyphens, and underscores.
-LAYER_NAME="layer_$1_$2_common"
+LAYER_NAME=""
+if [ "$2" != "" ]; then
+  PYTHON_VERSION="$2"
+  PYTHON_VERSION="${PYTHON_VERSION//./_}"
+  # レイヤーで"."を使えないので"."->"_"に変換 例)python3.6 -> python3_6 
+  echo "PYTHON_VERSION: " $PYTHON_VERSION
+  LAYER_NAME="layer_$1_$PYTHON_VERSION""_common"
+fi
 echo "LAYER_NAME:" $LAYER_NAME
 
 AWS_PROFILE=""

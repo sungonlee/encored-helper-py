@@ -1,0 +1,23 @@
+version: 0.2
+
+env:
+  variables:
+    PJ_NAME: "derms-batch-DR"
+  parameter-store:
+    EXEC_ENV: "EXEC_ENV"
+    GITHUB_TOKEN: "GITHUB_TOKEN"
+    PJ_PREFIX: "PJ_PREFIX"
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.9
+      nodejs: 12
+    commands:
+      - python3 -m pip install --upgrade pip
+      
+
+  pre_build:
+    on-failure: ABORT
+    commands:
+      - echo "run all UT test"

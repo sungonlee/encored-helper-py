@@ -27,5 +27,4 @@ phases:
   build:
     on-failure: ABORT
     commands:
-      - cd encored-helper-py
       - ./script/Make${LAMBDA_LAYER_TYPE}LambdaLayer.sh ${PLATFORM} ${PYTHON_VERSION} ${EXEC_ENV} cloud

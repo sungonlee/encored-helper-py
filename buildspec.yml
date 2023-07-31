@@ -1,12 +1,13 @@
 version: 0.2
 
 env:
-  parameter-store:
-    EXEC_ENV: "EXEC_ENV"
-    GITHUB_TOKEN: "GITHUB_TOKEN"
+  variables:
     LAMBDA_LAYER_TYPE: "LAMBDA_LAYER_TYPE"
     PLATFORM: "PLATFORM"
     PYTHON_VERSION: "PYTHON_VERSION"
+  parameter-store:
+    EXEC_ENV: "EXEC_ENV"
+    GITHUB_TOKEN: "GITHUB_TOKEN"
 
 phases:
   install:

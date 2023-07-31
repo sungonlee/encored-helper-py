@@ -55,7 +55,7 @@ zip -r "layer.zip" $zip_filelist
 
 ZIP_FILE_DIR="$PWD/layer.zip"
 echo "ZIP_FILE_DIR:" $ZIP_FILE_DIR
-if [ "$3" = "cloud" ]; then 
+if [ "$4" = "cloud" ]; then 
     aws lambda publish-layer-version --layer-name $LAYER_NAME --zip-file "fileb://"$ZIP_FILE_DIR
 else
     aws lambda publish-layer-version --layer-name $LAYER_NAME --zip-file "fileb://"$ZIP_FILE_DIR --profile $AWS_PROFILE

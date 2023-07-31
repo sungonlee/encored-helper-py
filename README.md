@@ -35,6 +35,6 @@ python setup.py sdist
 - pandas関連ライブラリ
   - pandas==2.0.3
   - python-dateutil==2.8.2
-  - pytz
-  - numpy
-  - six
+  - pytz==2022.2.1
+  - numpy==1.23.3
+  - six==1.16.0
